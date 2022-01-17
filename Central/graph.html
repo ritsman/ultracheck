@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="d3.min.js"></script>
+    <title>Document</title>
+</head>
+<style>
+    svg rect#gg {
+       fill: green;
+    }
+    svg rect#gg2 {
+       fill: yellow;
+    }
+    svg rect#gg3 {
+       fill: red;
+    }
+    .blue{
+       fill:steelblue;
+    }
+    svg text {
+       
+       font: 12px sans-serif;
+       text-anchor: end;
+    }
+    .hyper{
+       color:blue
+    }
+    .bar{
+       fill:steelblue;
+    }
+    div#container{
+       width:900px;
+       height:600px;
+       background-color: #ddd;
+       padding:10px;
+    }
+    .grid .tick line {
+    stroke: #6c9aaa;
+    stroke-opacity: 0.2;
+}
+ </style>
+<body>
+   <div id="container"></div>
+   
+
+   
+</body>
+
+<script>
+  var data=[
+   {"outlet":"palsana","sales":"10000"},
+   {"outlet":"vatva","sales":"10000"},
+   {"outlet":"vishnagar","sales":"40000"},
+   {"outlet":"hmt","sales":"58000"},
+   {"outlet":"central","sales":"50000"},
+
+  ];
+
+    const width=500;
+    const height=500;
+    const margin = {'top': 20, 'right': 20, 'bottom': 100, 'left': 100};
+    const graphWidth = width - margin.left - margin.right;
+    const graphHeight = height - margin.top - margin.bottom;
+
+    const svg=d3.select("#container")
+                .append("svg")
+                .attr("width",width)
+                .attr("height",height);
+
+    const graph=svg.append("g")
+                    .attr("width",graphWidth)
+                    .attr("height",graphHeight)
+                    .attr("transform",`translate(${margin.left},${margin.top})`);
+
+    const gx_axis=graph.append("g")
+                        .attr("transform",`translate(0,${graphHeight})`);
+    const gy_axis=graph.append("g");
+
+    var minsales=d3.min(data.map(function(d){return d.sales}));
+    var maxsales=d3.max(data.map(function(d){return d.sales}));
+    console.log(maxsales);
+    var upp=parseInt(maxsales)+parseInt(minsales);
+    console.log(upp);
+    
+
+    var xScale=d3.scaleBand()
+            .domain(data.map(function(d){return d.outlet}))
+            .range([0,graphWidth])
+            .padding(0.4);
+
+    var yScale=d3.scaleLinear()
+                    .domain([upp,0])
+                    .range([0,graphHeight]);
+
+    const xAxis=d3.axisBottom(xScale);
+    const yAxis=d3.axisLeft(yScale);
+
+    gx_axis.call(xAxis);
+    gy_axis.call(yAxis);
+
+    const rects=graph.selectAll("rect")
+                        .data(data)
+                        .enter()
+                        .append("rect")
+                        .attr("width",20)
+                        .attr("class","blue")
+                        .attr("height",function(d){return graphHeight-yScale(d.sales)})
+                        .attr("x",function(d){return xScale(d.outlet)})
+                        .attr("y",function(d){return yScale(d.sales)});
+
+
+   
+                  
+   graph.append("g")
+         .data([data])
+         //.enter()
+         .append("line")
+         
+         .attr("x1",xScale(0))
+         .attr("y1",function(d){
+            console.log(d);
+            return yScale(maxsales)})
+         .attr("x2",width)
+         .attr("y2",function(d){return yScale(maxsales)})
+         .attr("stroke","red");
+
+   graph.append('g')
+    .attr('class', 'grid')
+    .call(d3.axisLeft()
+        .scale(yScale)
+        .tickSize(-width, 0, 0)
+        .tickFormat(''));
+
+  
+
+  
+</script>
+</html>
