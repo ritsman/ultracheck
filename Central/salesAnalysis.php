@@ -40,11 +40,12 @@ function get_gen_series_os($DBH,$gen){
     // get catagory
     
       $q="select distinct series from `Q__os__madeups` where cat='MADEUPS'" ;
+      echo $q;
       $stm=$DBH->prepare($q);
       try {
         $stm->execute();
         while($r=$stm->fetch(PDO::FETCH_ASSOC)){
-          $data[]=$r['subcat'];
+          $data[]=$r['series'];
         }
       } catch (PDOException $th) {
         //throw $th;
