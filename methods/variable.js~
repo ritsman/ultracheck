@@ -1,0 +1,14 @@
+$(document).ready(function(){
+	//alert('varialble');
+	});
+
+var kay1=[];
+	kay1[0]='<li id="POsearch" onclick="track(this)">Purchase Order</li>';
+	kay1[1]='<li id="ASNsearch" onclick="track(this)">ASN</li>';
+	kay1[2]='<li id="GEsearch" onclick="track(this)">Gate Entry</li>';
+  kay1[3]='<li id="GRNsearch" onclick="track(this)">GRN</li>';
+	//kay1[4]='<li id="adhocTrims" onclick="track(this)">ADHOC</li>';
+	kay1[4]='<li id="adhoc_POsearch" onclick="track(this)">ADHOC</li>';
+	kay1[5]='<li id="trimsIssue" onclick="track(this)">Issue Trims</li>';
+	kay1[6]='<li id="trimsTns" onclick="track(this)">Transfer</li>';
+	
